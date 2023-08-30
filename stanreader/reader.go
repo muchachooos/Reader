@@ -2,6 +2,8 @@ package stanreader
 
 import (
 	"encoding/json"
+	"github.com/nats-io/nats.go"
+	"github.com/nats-io/stan.go"
 	"github.com/nats-io/stan.go/pb"
 	"reader/model"
 	"reader/storage"
