@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Orders</title>
+</head>
+<script>
+    async function getOrder() {
+        // достаём ID заказа из формы для ввода
+        const orderID = document.getElementById("input_order_uid").value
+        // получаем объект ответа
+        const response = await fetch("order" + "?order_uid=" + orderID);
+        // из объекта ответа извлекаем json
+        const order = await response.json();
+
+        // получаем информацу о заказе и заносим в HTML список
+        document.getElementById("order_uid").innerHTML = "order_uid: " + order.order_uid;
+        document.getElementById("track_number").innerHTML = "track_number: " + order.track_number;
+        document.getElementById("entry").innerHTML = "entry: " + order.entry;
+        document.getElementById("locale").innerHTML = "locale: " + order.locale;
+        document.getElementById("internal_signature").innerHTML = "internal_signature: " + order.internal_signature;
+        document.getElementById("customer_id").innerHTML = "customer_id: " + order.customer_id;
+        document.getElementById("delivery_service").innerHTML = "delivery_service: " + order.delivery_service;
+        document.getElementById("shardkey").innerHTML = "shardkey: " + order.shardkey;
+        document.getElementById("sm_id").innerHTML = "sm_id: " + order.sm_id;
+        document.getElementById("date_created").innerHTML = "date_created: " + order.date_created;
+        document.getElementById("oof_shard").innerHTML = "oof_shard: " + order.oof_shard;
+
+        // получаем информацу о доставке заказа и заносим в HTML список
+        document.getElementById("name").innerHTML = "name: " + order.delivery.name;
+        document.getElementById("phone").innerHTML = "phone: " + order.delivery.phone;
+        document.getElementById("zip").innerHTML = "zip: " + order.delivery.zip;
+        document.getElementById("city").innerHTML = "city: " + order.delivery.city;
+        document.getElementById("address").innerHTML = "address: " + order.delivery.address;
+        document.getElementById("region").innerHTML = "region: " + order.delivery.region;
+        document.getElementById("email").innerHTML = "email: " + order.delivery.email;
+
+        // получаем информацу об оплате заказа и заносим в HTML список
+        document.getElementById("transaction").innerHTML = "transaction: " + order.payment.transaction;
+        document.getElementById("request_id").innerHTML = "request_id: " + order.payment.request_id;
+        document.getElementById("currency").innerHTML = "currency: " + order.payment.currency;
+        document.getElementById("provider").innerHTML = "provider: " + order.payment.provider;
+        document.getElementById("amount").innerHTML = "amount: " + order.payment.amount;
+        document.getElementById("payment_dt").innerHTML = "payment_dt: " + order.payment.payment_dt;
+        document.getElementById("bank").innerHTML = "bank: " + order.payment.bank;
+        document.getElementById("delivery_cost").innerHTML = "delivery_cost: " + order.payment.delivery_cost;
+        document.getElementById("goods_total").innerHTML = "goods_total: " + order.payment.goods_total;
+        document.getElementById("custom_fee").innerHTML = "custom_fee: " + order.payment.custom_fee;
+
+        // обходим масив всех вещей в заказе
+        for (const key in order.items) {
+            // добавляем заголовок для каждой вещи
+            const headerItem = document.createElement('h3')
+            headerItem.innerHTML = "item " + key + ":"
+            document.getElementById("items").appendChild(headerItem)
+
+            // деалем новых список из характеристик вещи
+            const itemInfoList = document.createElement('ul');
+
+            // заполняем список характеристиками: chrt_id, track_number, price итд...
+            const chrt_id = document.createElement('li');
+            chrt_id.innerHTML = "chrt_id: " + order.items[key].chrt_id
+            itemInfoList.appendChild(chrt_id);
+
+            const track_number = document.createElement('li');
+            track_number.innerHTML = "track_number: " + order.items[key].track_number
+            itemInfoList.appendChild(track_number);
+
+            const price = document.createElement('li');
+            price.innerHTML = "price: " + order.items[key].price
+            itemInfoList.appendChild(price);
+
+            const rid = document.createElement('li');
+            rid.innerHTML = "rid: " + order.items[key].rid
+            itemInfoList.appendChild(rid);
+
+            const name = document.createElement('li');
+            name.innerHTML = "name: " + order.items[key].name
+            itemInfoList.appendChild(name);
+
+            const sale = document.createElement('li');
+            sale.innerHTML = "sale: " + order.items[key].sale
+            itemInfoList.appendChild(sale);
+
+            const size = document.createElement('li');
+            size.innerHTML = "size: " + order.items[key].size
+            itemInfoList.appendChild(size);
+
+            const total_price = document.createElement('li');
+            total_price.innerHTML = "total_price: " + order.items[key].total_price
+            itemInfoList.appendChild(total_price);
+
+            const nm_id = document.createElement('li');
+            nm_id.innerHTML = "nm_id: " + order.items[key].nm_id
+            itemInfoList.appendChild(nm_id);
+
+            const brand = document.createElement('li');
+            brand.innerHTML = "brand: " + order.items[key].brand
+            itemInfoList.appendChild(brand);
+
+            const status = document.createElement('li');
+            status.innerHTML = "status: " + order.items[key].status
+            itemInfoList.appendChild(status);
+
+
+            // добавляем новый элемент списка с ксписку всех вещей
+            document.getElementById("items").appendChild(itemInfoList)
+
+        }
+    }
+</script>
+<body>
+<input type="text" id="input_order_uid"/>
+<button onclick="getOrder()">Click</button>
+
+<h2>Order</h2>
+<ol>
+    <li id="order_uid"></li>
+    <li id="track_number"></li>
+    <li id="entry"></li>
+    <li id="locale"></li>
+    <li id="internal_signature"></li>
+    <li id="customer_id"></li>
+    <li id="delivery_service"></li>
+    <li id="shardkey"></li>
+    <li id="sm_id"></li>
+    <li id="date_created"></li>
+    <li id="oof_shard"></li>
+</ol>
+
+<h2>Delivery</h2>
+<ol>
+    <li id="name"></li>
+    <li id="phone"></li>
+    <li id="zip"></li>
+    <li id="city"></li>
+    <li id="address"></li>
+    <li id="region"></li>
+    <li id="email"></li>
+</ol>
+
+<h2>Payment</h2>
+<ol>
+    <li id="transaction"></li>
+    <li id="request_id"></li>
+    <li id="currency"></li>
+    <li id="provider"></li>
+    <li id="amount"></li>
+    <li id="payment_dt"></li>
+    <li id="bank"></li>
+    <li id="delivery_cost"></li>
+    <li id="goods_total"></li>
+    <li id="custom_fee"></li>
+</ol>
+
+<h2>Items</h2>
+<ul id="items">
+</ul>
+
+</body>
+</html>
