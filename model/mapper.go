@@ -61,3 +61,78 @@ func MapOrder(msg Message) (Order, []Item, Delivery, Payment) {
 
 	return order, items, delivery, payment
 }
+
+func MapMessage(order Order, items []Item, delivery Delivery, payment Payment) Message {
+	orderJSON := Order{
+		TrackNumber:       order.TrackNumber,
+		Entry:             order.Entry,
+		Locale:            order.Locale,
+		InternalSignature: order.InternalSignature,
+		CustomerId:        order.CustomerId,
+		DeliveryService:   order.DeliveryService,
+		Shardkey:          order.Shardkey,
+		SmId:              order.SmId,
+		DateCreated:       order.DateCreated,
+		OofShard:          order.OofShard,
+	}
+
+	itemsJSON := make([]ItemJSON, 0, len(items)-1)
+
+	for i := range items {
+		itemsJSON = append(itemsJSON, ItemJSON{
+			ChrtId:      items[i].ChrtId,
+			TrackNumber: items[i].TrackNumber,
+			Price:       items[i].Price,
+			Rid:         items[i].Rid,
+			Name:        items[i].Name,
+			Sale:        items[i].Sale,
+			Size:        items[i].Size,
+			TotalPrice:  items[i].TotalPrice,
+			NmId:        items[i].NmId,
+			Brand:       items[i].Brand,
+			Status:      items[i].Status,
+		})
+	}
+
+	deliveryJSON := DeliveryJSON{
+		Name:    delivery.Name,
+		Phone:   delivery.Phone,
+		Zip:     delivery.Zip,
+		City:    delivery.City,
+		Address: delivery.Address,
+		Region:  delivery.Region,
+		Email:   delivery.Email,
+	}
+
+	paymentJSON := PaymentJSON{
+		Transaction:  payment.Transaction,
+		RequestId:    payment.RequestId,
+		Currency:     payment.Currency,
+		Provider:     payment.Provider,
+		Amount:       payment.Amount,
+		PaymentDt:    payment.PaymentDt,
+		Bank:         payment.Bank,
+		DeliveryCost: payment.DeliveryCost,
+		GoodsTotal:   payment.GoodsTotal,
+		CustomFee:    payment.CustomFee,
+	}
+
+	result := Message{
+		OrderUid:          orderJSON.OrderUid,
+		TrackNumber:       orderJSON.TrackNumber,
+		Entry:             orderJSON.Entry,
+		Delivery:          deliveryJSON,
+		Payment:           paymentJSON,
+		Items:             itemsJSON,
+		Locale:            orderJSON.Locale,
+		InternalSignature: orderJSON.InternalSignature,
+		CustomerId:        orderJSON.CustomerId,
+		DeliveryService:   orderJSON.DeliveryService,
+		Shardkey:          orderJSON.Shardkey,
+		SmId:              orderJSON.SmId,
+		DateCreated:       orderJSON.DateCreated,
+		OofShard:          orderJSON.OofShard,
+	}
+
+	return result
+}
