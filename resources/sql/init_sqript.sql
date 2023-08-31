@@ -1,5 +1,3 @@
-DROP TABLE new_order, item, delivery, payment;
-
 CREATE TABLE new_order
 (
     order_uid          VARCHAR(255) PRIMARY KEY,
@@ -14,10 +12,6 @@ CREATE TABLE new_order
     date_created       TIMESTAMP,
     oof_shard          VARCHAR(255)
 );
-
-INSERT INTO new_order (order_uid, track_number, entry, locale, internal_signature, customer_id, delivery_service, shardkey, sm_id, date_created, oof_shard)
-VALUES ('b563feb7b2b84b6test2','WBILMTESTTRACK','WBIL', 'en', '', 'test', 'meest', '9', 99, '2021-11-26T06:22:19Z', '1' )
-;
 
 CREATE TABLE item
 (
@@ -35,10 +29,6 @@ CREATE TABLE item
     status       INT,
     FOREIGN KEY (order_uid) REFERENCES new_order (order_uid)
 );
-
-INSERT INTO item (order_uid, chrt_id, track_number, price, rid, name, sale, size, total_price, nm_id, brand, status)
-VALUES ('b563feb7b2b84b6test',9999999,'WBILMTESTTRACK', 999,'ab4219087a764ae0btest','Mascaras', 30, 0,317,2389212,'Vivienne Sabo',202)
-;
 
 CREATE TABLE delivery
 (

@@ -33,8 +33,6 @@ func (r *Reader) Run() {
 	if err != nil {
 		panic(err)
 	}
-
-	//time.Sleep(1000 * time.Second)
 }
 
 func (r *Reader) getMsgHandler(msg *stan.Msg) {
