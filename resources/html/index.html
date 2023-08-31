@@ -47,11 +47,14 @@
         document.getElementById("goods_total").innerHTML = "goods_total: " + order.payment.goods_total;
         document.getElementById("custom_fee").innerHTML = "custom_fee: " + order.payment.custom_fee;
 
+        // отчищаем список итемов
+        document.getElementById("items").innerHTML = ''
+
         // обходим масив всех вещей в заказе
         for (const key in order.items) {
             // добавляем заголовок для каждой вещи
             const headerItem = document.createElement('h3')
-            headerItem.innerHTML = "item " + key + ":"
+            headerItem.innerHTML = "item " + (parseInt(key) + 1) + ":"
             document.getElementById("items").appendChild(headerItem)
 
             // деалем новых список из характеристик вещи
@@ -110,11 +113,12 @@
     }
 </script>
 <body>
+<h2>Get order by ID</h2>
 <input type="text" id="input_order_uid"/>
-<button onclick="getOrder()">Click</button>
+<button onclick="getOrder()">Get</button>
 
 <h2>Order</h2>
-<ol>
+<ul>
     <li id="order_uid"></li>
     <li id="track_number"></li>
     <li id="entry"></li>
@@ -126,10 +130,10 @@
     <li id="sm_id"></li>
     <li id="date_created"></li>
     <li id="oof_shard"></li>
-</ol>
+</ul>
 
 <h2>Delivery</h2>
-<ol>
+<ul>
     <li id="name"></li>
     <li id="phone"></li>
     <li id="zip"></li>
@@ -137,10 +141,10 @@
     <li id="address"></li>
     <li id="region"></li>
     <li id="email"></li>
-</ol>
+</ul>
 
 <h2>Payment</h2>
-<ol>
+<ul>
     <li id="transaction"></li>
     <li id="request_id"></li>
     <li id="currency"></li>
@@ -151,7 +155,7 @@
     <li id="delivery_cost"></li>
     <li id="goods_total"></li>
     <li id="custom_fee"></li>
-</ol>
+</ul>
 
 <h2>Items</h2>
 <ul id="items">
