@@ -1,7 +1,11 @@
 package handler
 
-import "reader/storage"
+import (
+	"reader/cache"
+	"reader/storage"
+)
 
 type Server struct {
 	Server *storage.Storage
+	Cache  *cache.Cache
 }

@@ -13,11 +13,19 @@ func (s *Server) GetOrderHandler(context *gin.Context) {
 		return
 	}
 
+	msg, ok := s.Cache.Get(orderUid)
+	if ok {
+		context.JSON(200, msg)
+		return
+	}
+
 	message, err := s.Server.GetOrder(orderUid)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, model.Err{Error: "Database error: " + err.Error()})
 		return
 	}
+
+	s.Cache.Set(message)
 
 	context.JSON(200, message)
 }

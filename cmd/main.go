@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
+	"reader/cache"
 	"reader/client"
 	"reader/configuration"
 	"reader/handler"
@@ -26,11 +27,12 @@ func main() {
 	}
 
 	s := storage.Storage{DB: *db}
+	c := cache.NewCache()
 
-	server := handler.Server{Server: &s}
-	reader := stanreader.Reader{Storage: &s}
+	reader := stanreader.Reader{Storage: &s, Cache: c}
 	reader.Run()
 
+	server := handler.Server{Server: &s, Cache: c}
 	router := gin.Default()
 
 	// Возвращаяет HtmlHandler клиента

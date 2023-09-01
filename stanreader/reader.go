@@ -5,12 +5,14 @@ import (
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/stan.go"
 	"github.com/nats-io/stan.go/pb"
+	"reader/cache"
 	"reader/model"
 	"reader/storage"
 )
 
 type Reader struct {
 	Storage *storage.Storage
+	Cache   *cache.Cache
 }
 
 func (r *Reader) Run() {
@@ -67,4 +69,7 @@ func (r *Reader) getMsgHandler(msg *stan.Msg) {
 	if err != nil {
 		panic(err)
 	}
+
+	// Кладём заказ в кэш
+	r.Cache.Set(message)
 }
