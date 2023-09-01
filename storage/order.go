@@ -24,10 +24,6 @@ func (s *Storage) GetOrder(orderUid string) (model.Message, error) {
 
 	err = s.DB.Select(&items, "SELECT * FROM item WHERE order_uid = $1", orderUid)
 	if err != nil {
-		// Если итемов принадлежащих заказу с таким UID нет, возвращаем ошибку
-		if errors.Is(err, sql.ErrNoRows) {
-			return model.Message{}, model.ErrItemsNotFound
-		}
 		return model.Message{}, err
 	}
 
