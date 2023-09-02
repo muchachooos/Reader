@@ -7,7 +7,7 @@ import (
 
 type Cache struct {
 	data map[string]model.Message
-	mx   *sync.Mutex
+	mx   sync.Mutex
 }
 
 func NewCache() *Cache {
